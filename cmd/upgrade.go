@@ -80,6 +80,11 @@ func (uc *upgradeCmd) validate(cmd *cobra.Command, args []string) {
 		log.Fatal("--resource-group must be specified")
 	}
 
+	if uc.location == "" {
+		cmd.Usage()
+		log.Fatal("--location must be specified")
+	}
+
 	// TODO(colemick): add in the cmd annotation to help enable autocompletion
 	if uc.upgradeModelFile == "" {
 		cmd.Usage()
@@ -93,6 +98,11 @@ func (uc *upgradeCmd) validate(cmd *cobra.Command, args []string) {
 	if uc.deploymentDirectory == "" {
 		cmd.Usage()
 		log.Fatal("--deployment-dir must be specified")
+	}
+
+	_, err = uc.client.EnsureResourceGroup(uc.resourceGroup, uc.location)
+	if err != nil {
+		log.Fatalln(err)
 	}
 
 	// load apimodel from the deployment directory
