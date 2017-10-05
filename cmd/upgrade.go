@@ -33,6 +33,7 @@ type upgradeCmd struct {
 	upgradeModelFile    string
 	containerService    *api.ContainerService
 	apiVersion          string
+	location            string
 
 	// derived
 	client     armhelpers.ACSEngineClient
@@ -54,6 +55,7 @@ func newUpgradeCmd() *cobra.Command {
 	}
 
 	f := upgradeCmd.Flags()
+	f.StringVar(&uc.location, "location", "", "location the cluster is deployed in")
 	f.StringVar(&uc.resourceGroupName, "resource-group", "", "the resource group where the cluster is deployed")
 	f.StringVar(&uc.deploymentDirectory, "deployment-dir", "", "the location of the output from `generate`")
 	f.StringVar(&uc.upgradeModelFile, "upgrademodel-file", "", "file path to upgrade API model")
